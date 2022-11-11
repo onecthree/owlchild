@@ -3,9 +3,12 @@ package collectionModel
 import (
 	"go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/bson"
+    // "go.mongodb.org/mongo-driver/bson/primitive"
+	// . "github.com/onecthree/owlchild/facetype"
 
 	// "encoding/json"
 	"context"
+	// "reflect"
 
 	"fmt"
 )
@@ -36,27 +39,25 @@ func ( this *Init ) Get() interface{} {
 			fmt.Println(err);
 		}
 
-		// this.result = []byte(result);
-		
 		return result;
 	}
 
 	if( this.FindType == "one") {
-		var result bson.M
+		var result bson.M;
 
 		if err := db.FindOne(context.TODO(), this.QueryColumn).Decode(&result); err != nil {
 			fmt.Println(err);
 		}
 
 		this.result = result;
-
+		
 		return result;
 	}
 
 	return nil;
 }
 
-func ( this *Init ) Create( dataModel bson.M ) {
+func ( this *Init ) Create( dataModel interface{} ) {
 	client := this.Client;
 	collection := client.Database(this.DatabaseName).Collection(this.CollectionName)
 	res, _ := collection.InsertOne(context.TODO(), dataModel );
@@ -79,16 +80,13 @@ func ( this *Init ) FindOne( queryModel bson.M ) *Init {
 	return this;
 }
 
-func ( this *Init ) Assign( modelInterface interface{} ) {
+func ( this *Init ) Assign( modelInterface interface{}) {
 	if( this.FindType == "many") {
 
 	}
 
 	if( this.FindType == "one" ) {
-		var err = bson.Unmarshal(this.result, &modelInterface);
-		if err != nil {
-			fmt.Println(err.Error());
-			return;
-		}
+		bsonBytes, _ := bson.Marshal(this.result);
+		bson.Unmarshal(bsonBytes, *&modelInterface);
 	}
 }
