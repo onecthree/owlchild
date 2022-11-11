@@ -5,6 +5,7 @@ import (
 	
 	"net"
 	"encoding/binary"
+	"strconv"
 
 	"log"
 	"fmt"
@@ -15,12 +16,16 @@ type Config struct {
 	route 			MapInterface
 }
 
+func Default() *Config {
+	return new(Config);
+}
+
 func ( this *Config ) Route( routelist MapInterface ) {
 	this.route = routelist;
 }
 
-func ( this *Config ) Listen() {
-	instance, err := net.Listen("tcp4", this.Host)
+func ( this *Config ) Listen( port int ) {
+	instance, err := net.Listen("tcp4", "localhost:" + strconf.Itoa(port) ))
 
 	if err != nil {
 			fmt.Println("Error caught:", err);
