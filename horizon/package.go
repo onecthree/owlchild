@@ -25,7 +25,7 @@ func ( this *Config ) Route( routelist MapInterface ) {
 }
 
 func ( this *Config ) Listen( port int ) {
-	instance, err := net.Listen("tcp4", "localhost:" + strconv.Itoa(port) );
+	instance, err := net.Listen("tcp4", "localhost:" + strconv.Itoa(port));
 
 	if err != nil {
 			fmt.Println("Error caught:", err);

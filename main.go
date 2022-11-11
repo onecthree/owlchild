@@ -8,7 +8,7 @@ import(
 	// "go.mongodb.org/mongo-driver/bson"
 	// "github.com/kr/pretty"	
 
-	// "fmt"
+	"fmt"
 )
 
 type Podcast struct {
@@ -29,7 +29,7 @@ func main() {
 
 	AppModels.Route( MapInterface {
 		"UsersModel": func() {
-			
+			fmt.Println("Hello :D");
 		},
 	});
 
